@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru" data-theme="dark"><head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#141a24">
 <link rel="icon" href="icons/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="icons/icon_32.png">
@@ -9,66 +9,72 @@
 <link rel="manifest" href="manifest.json">
 <title>Нормативы ПСП и ГДЗС — калькулятор</title>
 <style>
-:root{--bg:#141a24;--sf:#1c2432;--ln:#2d3749;--tx:#e8ecf3;--mu:#9aa5ba;--ac:#ef5b3a;--on:#fff;--g1:#2fa36b;--g2:#7fae2f;--g3:#d99a1c;--g4:#d4452f;color-scheme:dark}
-:root[data-theme=light]{--bg:#f0f2f6;--sf:#fff;--ln:#d8dde7;--tx:#18202e;--mu:#586377;--ac:#d6401f;color-scheme:light}
+:root{--bg:#0d1420;--sf:#162033;--ln:#263450;--tx:#f2f5fa;--mu:#a3aec2;--ac:#ff6a3d;--on:#fff;--g1:#2fa36b;--g2:#7fae2f;--g3:#d99a1c;--g4:#d4452f;color-scheme:dark}
+:root[data-theme=light]{--bg:#f3f4f7;--sf:#fff;--ln:#d6dbe5;--tx:#141b29;--mu:#546075;--ac:#d6401f;color-scheme:light}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 Bahnschrift,"Segoe UI",system-ui,sans-serif}
-.wrap{max-width:1080px;margin:0 auto;padding:0 16px 48px}
-header{display:flex;align-items:center;gap:12px;padding:18px 0 10px}
-header h1{font-size:1.25rem;margin:0;flex:1;line-height:1.2}
-.logo{height:56px;width:auto;border-radius:10px;flex:none;display:none}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--tx);font:18px/1.45 Bahnschrift,"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;padding-bottom:env(safe-area-inset-bottom)}
+.wrap{max-width:760px;margin:0 auto;padding:0 14px 56px}
+header{display:flex;align-items:center;gap:12px;padding:calc(12px + env(safe-area-inset-top)) 0 8px}
+header h1{font-size:1.3rem;margin:0;flex:1;line-height:1.15;font-weight:700;letter-spacing:-.01em}
+.logo{height:48px;width:auto;border-radius:10px;flex:none;display:none}
 :root[data-theme=dark] .logo.d,:root[data-theme=light] .logo.l{display:block}
-header small{display:block;color:var(--mu);font-weight:400;font-size:.8rem;margin-top:2px}
+header small{display:block;color:var(--mu);font-weight:400;font-size:.78rem;margin-top:3px;line-height:1.25}
 button,select,input{font:inherit;color:inherit}
-.btn{background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:8px 14px;cursor:pointer}
-.btn:hover{border-color:var(--ac)}
+.btn{background:var(--sf);border:1px solid var(--ln);border-radius:12px;min-height:48px;min-width:48px;padding:0 14px;cursor:pointer;font-size:1rem}
+#theme{font-size:1.4rem;padding:0}
+.btn:active{border-color:var(--ac)}
 .btn.pri{background:var(--ac);border-color:var(--ac);color:var(--on)}
-:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
-nav{display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid var(--ln);margin-bottom:20px}
-nav button{background:none;border:0;border-bottom:3px solid transparent;padding:10px 14px;cursor:pointer;color:var(--mu);white-space:nowrap}
-nav button[aria-selected=true]{color:var(--tx);border-color:var(--ac);font-weight:600}
+:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+nav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;position:sticky;top:0;z-index:5;background:var(--bg);padding:8px 0;margin:0 0 14px}
+nav::-webkit-scrollbar{display:none}
+nav button{flex:none;background:var(--sf);border:1px solid var(--ln);border-radius:999px;min-height:48px;padding:0 20px;cursor:pointer;color:var(--mu);font-size:1.05rem;white-space:nowrap}
+nav button[aria-selected=true]{background:var(--ac);border-color:var(--ac);color:var(--on);font-weight:700}
 section[hidden]{display:none}
-.calc{display:grid;gap:20px}
-@media(min-width:860px){.calc{grid-template-columns:minmax(0,1fr) 360px;align-items:start}.res{position:sticky;top:12px}}
-.card{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:16px}
-.card h2,.card h3{margin:0 0 10px;font-size:1rem}
-label{display:block;font-size:.85rem;color:var(--mu);margin:12px 0 4px}
-select,input[type=text],input[type=number]{width:100%;background:var(--bg);border:1px solid var(--ln);border-radius:10px;padding:9px 10px}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media(max-width:520px){.row{grid-template-columns:1fr}}
-.chk{display:flex;gap:8px;align-items:center;margin:8px 0;color:var(--tx);font-size:.95rem}
-.chk input{width:18px;height:18px;accent-color:var(--ac)}
+.calc{display:grid;gap:14px}
+@media(min-width:860px){.wrap{max-width:1000px}.calc{grid-template-columns:minmax(0,1fr) 360px;align-items:start}.res{position:sticky;top:76px}}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:18px;padding:16px}
+.card h2,.card h3{margin:0 0 10px;font-size:1.2rem}
+label{display:block;font-size:1rem;color:var(--mu);margin:16px 0 6px}
+select,input[type=text],input[type=number]{width:100%;min-height:54px;font-size:1.1rem;background:var(--bg);border:1px solid var(--ln);border-radius:12px;padding:10px 12px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+@media(max-width:560px){.row{grid-template-columns:1fr}}
+.chk{display:flex;gap:14px;align-items:center;margin:14px 0;color:var(--tx);font-size:1.05rem;min-height:48px}
+.chk input{width:28px;height:28px;flex:none;accent-color:var(--ac)}
 .chk[data-off]{opacity:.45}
-.cond{font-size:.9rem;color:var(--mu);margin:0 0 6px}
-.warn{background:rgba(217,154,28,.15);border-left:3px solid var(--g3);padding:8px 10px;border-radius:6px;font-size:.88rem;margin:8px 0}
-.grade{font-size:2rem;font-weight:700;line-height:1.1;margin:4px 0 12px}
-.bar{position:relative;height:14px;border-radius:7px;overflow:hidden;display:flex;margin:18px 0 6px}
+.cond{font-size:1rem;color:var(--mu);margin:0 0 8px}
+.warn{background:rgba(217,154,28,.16);border-left:4px solid var(--g3);padding:10px 12px;border-radius:8px;font-size:1rem;margin:10px 0}
+.res{border-top:4px solid var(--ac)}
+#tm{font-size:1.7rem;font-weight:700;min-height:64px;text-align:center;font-variant-numeric:tabular-nums}
+.grade{font-size:2.5rem;font-weight:800;line-height:1.05;margin:14px 0 14px;letter-spacing:-.02em}
+.bar{position:relative;height:18px;border-radius:9px;overflow:hidden;display:flex;margin:22px 0 8px}
 .bar i{display:block;height:100%}
-.pin{position:absolute;top:-6px;width:3px;height:26px;background:var(--tx);border-radius:2px;transform:translateX(-1px)}
-.th{display:grid;grid-template-columns:auto 1fr auto;gap:4px 10px;font-size:.95rem;margin-top:12px}
-.th b{font-variant-numeric:tabular-nums;text-align:right}
-.dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:6px}
-.mu{color:var(--mu);font-size:.85rem}
+.pin{position:absolute;top:-6px;width:4px;height:30px;background:var(--tx);border-radius:2px;transform:translateX(-1px)}
+.th{display:grid;grid-template-columns:auto 1fr auto;gap:8px 10px;font-size:1.1rem;margin-top:14px;align-items:center}
+.th b{font-variant-numeric:tabular-nums;text-align:right;font-size:1.25rem}
+.dot{width:14px;height:14px;border-radius:50%;display:inline-block;margin-right:6px}
+.mu{color:var(--mu);font-size:1rem}
 .tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-.tools input{flex:1;min-width:200px}
-.chip{border:1px solid var(--ln);background:var(--sf);border-radius:20px;padding:6px 12px;cursor:pointer;font-size:.9rem}
+.tools input{flex:1 1 100%}
+.chip{border:1px solid var(--ln);background:var(--sf);border-radius:999px;min-height:44px;padding:0 16px;cursor:pointer;font-size:1rem}
 .chip[aria-pressed=true]{background:var(--ac);border-color:var(--ac);color:var(--on)}
-details{background:var(--sf);border:1px solid var(--ln);border-radius:12px;margin-bottom:8px}
+details{background:var(--sf);border:1px solid var(--ln);border-radius:16px;margin-bottom:10px}
 details[hidden]{display:none}
-summary{cursor:pointer;padding:12px 14px;display:flex;gap:10px;align-items:baseline}
-summary b{min-width:2.6em;color:var(--ac)}
-.tag{font-size:.75rem;border:1px solid var(--ac);color:var(--ac);border-radius:6px;padding:0 6px;white-space:nowrap}
-.det{padding:0 14px 14px}
-table{border-collapse:collapse;width:100%;font-size:.92rem;font-variant-numeric:tabular-nums}
-th,td{border-bottom:1px solid var(--ln);padding:6px 8px;text-align:left}
+summary{cursor:pointer;padding:14px;display:flex;gap:12px;align-items:baseline;font-size:1.1rem;line-height:1.3}
+summary b{min-width:2.2em;color:var(--ac);font-size:1.3rem}
+.tag{font-size:.8rem;border:1px solid var(--ac);color:var(--ac);border-radius:6px;padding:0 6px;white-space:nowrap}
+.det{padding:0 14px 16px;font-size:1.02rem}
+table{border-collapse:collapse;width:100%;font-size:1rem;font-variant-numeric:tabular-nums}
+th,td{border-bottom:1px solid var(--ln);padding:10px 8px;text-align:left}
 td.n,th.n{text-align:right}
 .scroll{overflow-x:auto}
-ol.c{padding-left:0;list-style:none;margin:12px 0;font-size:.92rem}
-ol.c li{margin:4px 0}
-.help p,.help li{max-width:75ch}
+ol.c{padding-left:0;list-style:none;margin:12px 0;font-size:1.02rem}
+ol.c li{margin:8px 0}
+.help p,.help li{max-width:70ch;font-size:1.05rem}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 </style></head><body>
 <div class="wrap">
-<header><img class="logo d" src="icons/logo_dark.png" alt="Логотип «Нормативы ПСП и ГДЗС»"><img class="logo l" src="icons/logo_light.png" alt="Логотип «Нормативы ПСП и ГДЗС»"><h1>Нормативы по ПСП и ГДЗС<small>УПО ГУпЧС МВД ПМР · Приказ № 22 от 03.04.2019</small></h1>
+<header><img class="logo d" src="icons/logo_dark.png" alt="Логотип «Нормативы ПСП и ГДЗС»"><img class="logo l" src="icons/logo_light.png" alt="Логотип «Нормативы ПСП и ГДЗС»"><h1>Нормативы ПСП и ГДЗС<small>Приказ № 22 от 03.04.2019</small></h1>
 <button class="btn" id="theme" aria-label="Сменить тему"></button></header>
 <nav role="tablist" id="tabs">
 <button role="tab" data-t="calc" aria-selected="true">Калькулятор</button>
@@ -98,7 +104,7 @@ ol.c li{margin:4px 0}
 </div>
 <div class="card res"><h2>Результат</h2>
 <label for="tm" style="margin-top:0">Фактическое время, с (или м:сс)</label>
-<input type="text" id="tm" inputmode="decimal" placeholder="например, 24,5 или 1:05">
+<input type="text" id="tm" inputmode="decimal" placeholder="24,5 или 1:05" autocomplete="off">
 <div id="out"></div></div>
 </div></section>
 
@@ -185,7 +191,7 @@ $('#ct').innerHTML=tb('Кв — возраст',['Возрастная груп�
 // tabs, theme
 function tab(t){$$('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===t));$$('main,section').forEach(s=>s.hidden=s.id!==t)}
 $$('#tabs button').forEach(b=>b.onclick=()=>tab(b.dataset.t));
-function theme(m){document.documentElement.dataset.theme=m;$('#theme').textContent=m==='dark'?'☀ Светлая':'🌙 Тёмная';$('meta[name=theme-color]').content=m==='dark'?'#141a24':'#f0f2f6';try{localStorage.setItem('th',m)}catch(e){}}
+function theme(m){document.documentElement.dataset.theme=m;$('#theme').textContent=m==='dark'?'☀️':'🌙';$('meta[name=theme-color]').content=m==='dark'?'#141a24':'#f0f2f6';try{localStorage.setItem('th',m)}catch(e){}}
 let m0='dark';try{m0=localStorage.getItem('th')||'dark'}catch(e){}
 theme(m0);$('#theme').onclick=()=>theme(document.documentElement.dataset.theme==='dark'?'light':'dark');
 pickNorm();
