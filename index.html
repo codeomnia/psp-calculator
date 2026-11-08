@@ -3,6 +3,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#141a24">
+<link rel="icon" href="icons/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/icon_32.png">
+<link rel="apple-touch-icon" href="icons/icon_180.png">
+<link rel="manifest" href="manifest.json">
 <title>Нормативы ПСП и ГДЗС — калькулятор</title>
 <style>
 :root{--bg:#141a24;--sf:#1c2432;--ln:#2d3749;--tx:#e8ecf3;--mu:#9aa5ba;--ac:#ef5b3a;--on:#fff;--g1:#2fa36b;--g2:#7fae2f;--g3:#d99a1c;--g4:#d4452f;color-scheme:dark}
@@ -12,6 +16,8 @@ body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 Bahnschrift,"Se
 .wrap{max-width:1080px;margin:0 auto;padding:0 16px 48px}
 header{display:flex;align-items:center;gap:12px;padding:18px 0 10px}
 header h1{font-size:1.25rem;margin:0;flex:1;line-height:1.2}
+.logo{height:56px;width:auto;border-radius:10px;flex:none;display:none}
+:root[data-theme=dark] .logo.d,:root[data-theme=light] .logo.l{display:block}
 header small{display:block;color:var(--mu);font-weight:400;font-size:.8rem;margin-top:2px}
 button,select,input{font:inherit;color:inherit}
 .btn{background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:8px 14px;cursor:pointer}
@@ -62,7 +68,7 @@ ol.c li{margin:4px 0}
 .help p,.help li{max-width:75ch}
 </style></head><body>
 <div class="wrap">
-<header><h1>Нормативы по ПСП и ГДЗС<small>УПО ГУпЧС МВД ПМР · Приказ № 22 от 03.04.2019</small></h1>
+<header><img class="logo d" src="icons/logo_dark.png" alt="Логотип «Нормативы ПСП и ГДЗС»"><img class="logo l" src="icons/logo_light.png" alt="Логотип «Нормативы ПСП и ГДЗС»"><h1>Нормативы по ПСП и ГДЗС<small>УПО ГУпЧС МВД ПМР · Приказ № 22 от 03.04.2019</small></h1>
 <button class="btn" id="theme" aria-label="Сменить тему"></button></header>
 <nav role="tablist" id="tabs">
 <button role="tab" data-t="calc" aria-selected="true">Калькулятор</button>
