@@ -1,1 +1,23 @@
-PLACEHOLDER
+<!DOCTYPE html>
+<html lang="ru"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f1218">
+<title>Калькулятор нормативов ПСП и ГДЗС</title>
+<style>body{margin:0;background:#0f1218;color:#8b95a8;font-family:system-ui,sans-serif;display:grid;place-items:center;min-height:100vh}
+.box{text-align:center;padding:24px}.spin{width:36px;height:36px;border:3px solid #2a3142;border-top-color:#e85a2a;border-radius:50%;margin:0 auto 16px;animation:s .7s linear infinite}
+@keyframes s{to{transform:rotate(360deg)}}</style>
+</head><body><div class="box"><div class="spin"></div><div>Загрузка калькулятора…</div></div>
+<script>
+(async()=>{
+  try {
+    const b64="H4sIAA6n8GoC/+19a3Mbx5Xod/+KCVKJAAsA8Sb4UmIrsq1rx96K5bq1lc2HITAkYQ0BLDDQI1lVSaQdO1deK/Y6m6yT2HGy2d2q3VtFUaJFUSRV5fsHwL/gP7D7E+55dPd0z/TgQVKyd2PLJIGZ7tOnT593n55Z/NYPXjt/6a//6oKzFqz7555ZxD+O77ZXl1K9QcppuoGbC9a8dW8p1XR7l1PYxHOb555xnMV1L3Cdxprb63vBUuqNSy/k6ilnJrzVdrHblZZ3tdvpBSmn0WkHXhuaXm01g7Wlpnel1fBy9CXrtNqtoOX6uX7D9b2lYr4gQQWtwPfODT8ebg0fHb033DvahL93jjaGh0c3neEB/hnuD7fgwu5we3g43HaGnw4/G37qDHed4T8MPxr+evjZ4gxDQXh+q33Z6Xn+Uqrb8wClttcA3NZ63spSai0Iuv35mZkVwLSfX+10Vn3P7bb6+UZnXeIzRf9+4AatBndu9Dr9fqfXWm21dUDjx51p9Pul76246y3/+tJFoGBv/urqWvD9SqGwUIWfGvzMwk+9UPiuaPW/vOD5nttq98/+sNPucHPR9LvNVr/ru9eX+lfdborn0Q+u+15/zfMCOUe6gp8cZ+ZZZwn/c37w3I9edtJNb8Ud+EFGXHx2hhrN9zqdIOv8OMYuP3F+Rg0cJ5dbXp13vl1YKZaK9QXtYq7h9ppwpzhbXC5VjDue711xA4/ueqVKuWDcbbW7gwBvlYq1oqfd6vSaQCTn2yW3XKyUojdyK53GoA+3vXrVLbnh7cC7FtBlr7FSMS/n1geMRn15rurWIzebrXW4VW3UarMaOLfRAGa3jMM3cmudK4TlykptuRy/3e+sQOfe6rKbLpVLWWeukHUq8LeQL1YzYev+AJr3cTqlUqNa9WJ3dEDlStYpzs0CsEoM0FW31261cYk8d7lcqMfumBghpNm5rFOPAWqC8qCJeSsV+C96wwQDEGp1/omAabVXOgCkvFwvrdS0Wa25zc7VeafgVLrXnBL+IlCFLP3LVzQQqKhgwNWeC0sH0ua5/KUF9E0Xy9Wmt5pF+q845cJ3snKhMjrDNK9Tj2LCSpRsjUuicRUmVyxD41Klhq0LNa01CUluOWizWOjsfeMZU/BeufjiS5dMeTMEzW+BfMclbaWyUluZs0naCv2XJGkrhRWD4pqkrdRX5lYaFklr1pueV59W0opucaXkJUha1a1VZu2SFhVCJWnNSgVAJkpao1QpFhrTSJpV0Io1t1xxRwpaCboXa+WsM1uJ8UkoaA237hYqowWtgJDKIB5xQErQmo1SrVQbKWglmBNCKdej8xJyVqrWyt5yopwVonJWqE8taLzcAAtljddiClkzpGe8rFWSZY0UfMmQtWednznLnWu5fuuntDSCf+HSgrPu9sBmAyUWnK7bbNJ9+Cx6IiZK8tB859gGzztnyFafyTr96/3AW88NWvDRbQOfeL2WYtJlt3F5tdcZtIFyV9xeGuVNod7o+J2evI4CoO6st9pAdRT8eadYKFxZkzeQ+uGdfDU+Tq617q568+K64+A6gd+l1svz/Va37zn1wnecKvy4Af3J0boJFNVaZbJO0INJdd0e9M1kx0KtAagKQwW8v0O/YmBLEbByEnQN3MQOLEc4IVjuUrWfZWrxF2Nx8+h3gjfk9dRCrbvX2O8EGgEG3WuKrnKxHXcQdORVte5FFIZiCSWiLjuF6volEgOpo1ko1JCkv1zQ1QAd1Y7";
+    const bin=Uint8Array.from(atob(b64),c=>c.charCodeAt(0));
+    const stream=new Blob([bin]).stream().pipeThrough(new DecompressionStream("gzip"));
+    const html=await new Response(stream).text();
+    document.open();document.write(html);document.close();
+  } catch(e) {
+    document.body.innerHTML="<p style=\"padding:24px;text-align:center\">Error</p>";
+  }
+})();
+</script></body></html>
