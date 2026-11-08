@@ -12,19 +12,21 @@ body{margin:0;background:#0f1218;color:#8b95a8;font-family:system-ui,sans-serif;
 </style>
 </head><body>
 <div class="box"><div class="spin"></div><div>Загрузка…</div></div>
-<script src="p1.js"></script>
-<script src="p2.js"></script>
+<script src="b0.js"></script>
+<script src="b1.js"></script>
+<script src="b2.js"></script>
+<script src="b3.js"></script>
 <script>
 (async function(){
   try {
-    var b64 = (window.__P1||"") + (window.__P2||"");
+    var b64 = [0,1,2,3].map(function(i){ return window["__B"+i]||""; }).join("");
     if (!b64) throw new Error("no data");
     var bin = Uint8Array.from(atob(b64), function(c){ return c.charCodeAt(0); });
     var stream = new Blob([bin]).stream().pipeThrough(new DecompressionStream("gzip"));
     var html = await new Response(stream).text();
     document.open(); document.write(html); document.close();
   } catch(e) {
-    document.body.innerHTML = '<p style="padding:24px;text-align:center">Ошибка загрузки. Обновите страницу.<br><small>'+e+'</small></p>';
+    document.body.innerHTML = '<p style="padding:24px;text-align:center">Ошибка загрузки<br><small>'+e+'</small></p>';
   }
 })();
 </script>
