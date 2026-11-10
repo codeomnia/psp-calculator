@@ -3,9 +3,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0d1420">
-<link rel="icon" href="icons/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="icons/icon_32.png">
-<link rel="apple-touch-icon" href="icons/icon_180.png">
+<link rel="icon" href="icons/favicon.ico?v=2" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/icon_32.png?v=2">
+<link rel="icon" type="image/png" sizes="48x48" href="icons/icon_48.png?v=2">
+<link rel="apple-touch-icon" href="icons/icon_180.png?v=2">
 <link rel="manifest" href="manifest.json">
 <title>Нормативы ПСП и ГДЗС — калькулятор</title>
 <style>
@@ -65,6 +66,9 @@ select,input[type=text],input[type=number]{width:100%;min-height:54px;font-size:
 .cond{font-size:1rem;color:var(--mu);margin:0 0 8px}
 .warn{background:rgba(217,154,28,.16);border-left:4px solid var(--g3);padding:10px 12px;border-radius:8px;font-size:1rem;margin:10px 0}
 .res{border-top:4px solid var(--ac)}
+.tmrow{display:flex;gap:8px}.tmrow #tm{flex:1;min-width:0}
+#colon{width:72px;min-height:64px;font-size:2rem;font-weight:800;padding:0;color:var(--ac)}
+.hint{margin:6px 0 0;font-size:.9rem}
 #tm{font-size:1.7rem;font-weight:700;min-height:64px;text-align:center;font-variant-numeric:tabular-nums}
 .grade{font-size:clamp(1.5rem,8.2vw,2.5rem);overflow-wrap:normal;font-weight:800;line-height:1.05;margin:14px 0 14px;letter-spacing:-.02em}
 .bar{position:relative;height:18px;border-radius:9px;overflow:hidden;display:flex;margin:22px 0 8px}
@@ -131,7 +135,8 @@ ol.c li{margin:8px 0}
 </div>
 <div class="card res"><h2>Результат</h2>
 <label for="tm" style="margin-top:0">Фактическое время, с (или м:сс)</label>
-<input type="text" id="tm" inputmode="decimal" placeholder="24,5 или 1:05" autocomplete="off">
+<div class="tmrow"><input type="text" id="tm" inputmode="decimal" placeholder="24,5 или 1:05" autocomplete="off"><button type="button" class="btn" id="colon" aria-label="Вставить двоеточие: минуты и секунды">:</button></div>
+<p class="mu hint">Минуты и секунды: 1:05 — нажмите «:» справа</p>
 <div id="out"></div></div>
 </div></section>
 
@@ -203,6 +208,14 @@ function calc(){
  `<p class="mu" style="margin-top:14px">Норма по приказу${$('#alt').checked&&v.alt?' (время в скобках: '+altLbl(n)+')':''}: ${src.map(x=>x).join(' / ')} с${add?`, надбавка ${fm(add)} с`:''}.<br>Общий коэффициент ×${(Math.round(K*1000)/1000).toString().replace('.',',')}.</p>`}
 ns.onchange=pickNorm;$('#var').onchange=pickVar;
 $$('#calc select,#calc input').forEach(e=>{if(e.id!=='norm'&&e.id!=='var')e.addEventListener('input',calc)});
+// кнопка «:» — на цифровой клавиатуре смартфона двоеточия нет
+(function(){const b=$('#colon'),i=$('#tm');
+ b.addEventListener('pointerdown',e=>e.preventDefault());
+ b.addEventListener('click',()=>{if(i.value.includes(':')){i.focus();return}
+  const a=i.selectionStart==null?i.value.length:i.selectionStart,z=i.selectionEnd==null?a:i.selectionEnd;
+  i.value=i.value.slice(0,a)+':'+i.value.slice(z);i.focus();try{i.setSelectionRange(a+1,a+1)}catch(e){}
+  i.dispatchEvent(new Event('input',{bubbles:true}))})})();
+
 // схемы боевого развёртывания (условные, без масштаба)
 const R=(a,d)=>`Ø${d} · ${a.length>1?a[0]+'–'+a[a.length-1]:a[0]} рук.`;
 const SCM={dep31:{w:[{t:R([2,3],51)}]},dep32:{w:[{t:R([2,3],51)}]},
