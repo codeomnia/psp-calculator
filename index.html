@@ -32,6 +32,7 @@ header{position:relative;text-align:center;padding:calc(10px + env(safe-area-ins
 header h1{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);margin:0}
 .hero{display:flex;flex-direction:column;align-items:center;gap:2px}
 .logo{display:none;width:min(66vw,290px);height:auto;filter:drop-shadow(0 14px 26px rgba(255,90,40,.38))}
+body:not([data-tab=calc]) .logo{width:min(38vw,150px)}
 :root[data-theme=light] .logo{filter:drop-shadow(0 14px 22px rgba(20,27,41,.28))}
 :root[data-theme=dark] .logo.d,:root[data-theme=light] .logo.l{display:block}
 .sub{margin:0;color:var(--mu);font-size:.95rem;letter-spacing:.02em}
@@ -66,8 +67,6 @@ select,input[type=text],input[type=number]{width:100%;min-height:54px;font-size:
 .cond{font-size:1rem;color:var(--mu);margin:0 0 8px}
 .warn{background:rgba(217,154,28,.16);border-left:4px solid var(--g3);padding:10px 12px;border-radius:8px;font-size:1rem;margin:10px 0}
 .res{border-top:4px solid var(--ac)}
-.tmrow{display:flex;gap:8px}.tmrow #tm{flex:1;min-width:0}
-#colon{width:72px;min-height:64px;font-size:2rem;font-weight:800;padding:0;color:var(--ac)}
 .hint{margin:6px 0 0;font-size:.9rem}
 #tm{font-size:1.7rem;font-weight:700;min-height:64px;text-align:center;font-variant-numeric:tabular-nums}
 .grade{font-size:clamp(1.5rem,8.2vw,2.5rem);overflow-wrap:normal;font-weight:800;line-height:1.05;margin:14px 0 14px;letter-spacing:-.02em}
@@ -78,10 +77,14 @@ select,input[type=text],input[type=number]{width:100%;min-height:54px;font-size:
 .th b{font-variant-numeric:tabular-nums;text-align:right;font-size:1.25rem}
 .dot{width:14px;height:14px;border-radius:50%;display:inline-block;margin-right:6px}
 .mu{color:var(--mu);font-size:1rem}
-.tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-.tools input{flex:1 1 100%}
-.chip{border:1px solid var(--ln);background:var(--sf);border-radius:999px;min-height:44px;padding:0 16px;cursor:pointer;font-size:1rem}
-.chip[aria-pressed=true]{background:var(--ac);border-color:var(--ac);color:var(--on)}
+.tools{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:6px}
+.tools input{grid-column:1/-1}
+.chip{grid-column:span 2;display:flex;align-items:center;justify-content:center;min-height:50px;padding:0 8px;border:1.5px solid var(--ln);border-radius:14px;background:var(--sf);color:var(--tx);font-size:1.02rem;font-weight:600;line-height:1.15;text-align:center;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.chip[data-f=all]{order:1}.chip[data-f=psp]{order:2}.chip[data-f=gdzs]{order:3}
+.chip[data-f=dep]{order:4;grid-column:span 3}.chip[data-f=req]{order:5;grid-column:span 3}
+.chip[aria-pressed=true]{background:var(--ac);border-color:var(--ac);color:var(--on);box-shadow:0 4px 14px color-mix(in srgb,var(--ac) 40%,transparent)}
+.chip:active{transform:scale(.97)}
+.cnt{margin:0 0 12px;font-size:.95rem;color:var(--mu)}
 details{background:var(--sf);border:1px solid var(--ln);border-radius:16px;margin-bottom:10px}
 details[hidden]{display:none}
 .sch{width:100%;height:auto;display:block;background:var(--bg);border:1px solid var(--ln);border-radius:12px}
@@ -101,9 +104,10 @@ td.n,th.n{text-align:right}
 .scroll{overflow-x:auto}
 ol.c{padding-left:0;list-style:none;margin:12px 0;font-size:1.02rem}
 ol.c li{margin:8px 0}
-.help p,.help li{max-width:70ch;font-size:1.05rem}
+.help p,.help li{max-width:70ch;font-size:1.05rem;text-align:justify;text-justify:inter-word;hyphens:auto;-webkit-hyphens:auto}
+.help h2{text-align:left}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
-</style></head><body>
+</style></head><body data-tab="calc">
 <div class="wrap">
 <header><div class="hero"><img class="logo d" src="icons/logo_dark.webp" width="520" height="657" alt="Логотип «Нормативы ПСП и ГДЗС»"><img class="logo l" src="icons/logo_light.webp" width="520" height="657" alt="Логотип «Нормативы ПСП и ГДЗС»"><h1>Нормативы ПСП и ГДЗС</h1><p class="sub">Приказ № 22 от 03.04.2019</p></div>
 <button class="btn" id="theme" aria-label="Сменить тему"></button></header>
@@ -134,15 +138,16 @@ ol.c li{margin:8px 0}
 <label class="chk" id="altw"><input type="checkbox" id="alt"> <span>Использовать значения в скобках (время с пуском воды или заполнением насоса)</span></label>
 </div>
 <div class="card res"><h2>Результат</h2>
-<label for="tm" style="margin-top:0">Фактическое время, с (или м:сс)</label>
-<div class="tmrow"><input type="text" id="tm" inputmode="decimal" placeholder="24,5 или 1:05" autocomplete="off"><button type="button" class="btn" id="colon" aria-label="Вставить двоеточие: минуты и секунды">:</button></div>
-<p class="mu hint">Минуты и секунды: 1:05 — нажмите «:» справа</p>
+<label for="tm" style="margin-top:0">Фактическое время, с</label>
+<input type="text" id="tm" inputmode="decimal" placeholder="24,5" autocomplete="off" enterkeyhint="done">
+<p class="mu hint" id="tmh"></p>
 <div id="out"></div></div>
 </div></section>
 
 <section id="list" hidden>
 <div class="tools"><input type="text" id="q" placeholder="Поиск по номеру или названию" aria-label="Поиск">
 <button class="chip" data-f="all" aria-pressed="true">Все</button><button class="chip" data-f="psp" aria-pressed="false">ПСП</button><button class="chip" data-f="dep" aria-pressed="false">Боевое развёртывание</button><button class="chip" data-f="gdzs" aria-pressed="false">ГДЗС</button><button class="chip" data-f="req" aria-pressed="false">Обязательные</button></div>
+<p class="cnt" id="cnt" aria-live="polite"></p>
 <div id="items"></div></section>
 
 <section id="coef" hidden><div id="ct" class="calc" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))"></div></section>
@@ -200,6 +205,7 @@ function calc(){
  const add=(+$('#ex').value||0)+($('#pn').checked&&n.sec==='psp'&&n.n===4?60:0)+(n.sec==='dep'?(+$('#sx').value)*(+$('#sn').value||0):0);
  const K=kv*kt*ks*kn*ku*l1*cm,src=$('#alt').checked&&v.alt?v.alt:v.t,th=src.map(x=>(x+add)*K);
  const G=[['Отлично','var(--g1)'],['Хорошо','var(--g2)'],['Удовлетворительно','var(--g3)'],['Неудовлетворительно','var(--g4)']];
+ $('#tmh').textContent=t>=60?'= '+Math.floor(t/60)+' мин '+fm(Math.round((t%60)*10)/10)+' с':'';
  const gi=isNaN(t)?-1:th.findIndex(x=>t<=x+1e-9),g=isNaN(t)?-1:(gi<0?3:gi);
  const mx=th[2]*1.25,pc=x=>Math.min(x/mx,1)*100;
  const bar=`<div class="bar"><i style="width:${pc(th[0])}%;background:var(--g1)"></i><i style="width:${pc(th[1])-pc(th[0])}%;background:var(--g2)"></i><i style="width:${pc(th[2])-pc(th[1])}%;background:var(--g3)"></i><i style="flex:1;background:var(--g4)"></i>${isNaN(t)?'':`<span class="pin" style="left:${pc(t)}%"></span>`}</div>`;
@@ -208,14 +214,6 @@ function calc(){
  `<p class="mu" style="margin-top:14px">Норма по приказу${$('#alt').checked&&v.alt?' (время в скобках: '+altLbl(n)+')':''}: ${src.map(x=>x).join(' / ')} с${add?`, надбавка ${fm(add)} с`:''}.<br>Общий коэффициент ×${(Math.round(K*1000)/1000).toString().replace('.',',')}.</p>`}
 ns.onchange=pickNorm;$('#var').onchange=pickVar;
 $$('#calc select,#calc input').forEach(e=>{if(e.id!=='norm'&&e.id!=='var')e.addEventListener('input',calc)});
-// кнопка «:» — на цифровой клавиатуре смартфона двоеточия нет
-(function(){const b=$('#colon'),i=$('#tm');
- b.addEventListener('pointerdown',e=>e.preventDefault());
- b.addEventListener('click',()=>{if(i.value.includes(':')){i.focus();return}
-  const a=i.selectionStart==null?i.value.length:i.selectionStart,z=i.selectionEnd==null?a:i.selectionEnd;
-  i.value=i.value.slice(0,a)+':'+i.value.slice(z);i.focus();try{i.setSelectionRange(a+1,a+1)}catch(e){}
-  i.dispatchEvent(new Event('input',{bubbles:true}))})})();
-
 // схемы боевого развёртывания (условные, без масштаба)
 const R=(a,d)=>`Ø${d} · ${a.length>1?a[0]+'–'+a[a.length-1]:a[0]} рук.`;
 const SCM={dep31:{w:[{t:R([2,3],51)}]},dep32:{w:[{t:R([2,3],51)}]},
@@ -254,15 +252,16 @@ $('#items').innerHTML=D.map(n=>{const rows=n.v.map(v=>`<tr><td>${esc(lab(n,v)||'
  return `<details data-id="${n.id}" data-sec="${n.sec}" data-req="${n.req?1:0}"><summary><b>${num(n)}</b><span style="flex:1">${esc(ttl(n))}</span>${n.req?'<span class="tag">обяз.</span>':''}</summary><div class="det"><div class="scroll"><table><tr><th>Вариант</th><th class="n">Отл.</th><th class="n">Хор.</th><th class="n">Удовл.</th></tr>${rows}</table></div>${sch(n)}${n.cond.map(c=>`<p class="cond">${esc(c)}</p>`).join('')}${n.w||n.v.some(v=>v.w)?`<div class="warn">⚠ ${esc(n.w||n.v.find(v=>v.w).w)}</div>`:''}<button class="btn pri" data-go="${n.id}">В калькулятор</button></div></details>`}).join('');
 let flt='all';
 function filt(){const q=$('#q').value.trim().toLowerCase();$$('#items details').forEach(d=>{const n=D.find(x=>x.id===d.dataset.id);
- const ok=(flt==='all'||(flt==='req'?d.dataset.req==='1':d.dataset.sec===flt))&&(!q||(num(n)+' '+n.n+' '+n.title+' '+n.v.map(v=>v.l).join(' ')).toLowerCase().includes(q));d.hidden=!ok})}
+ const ok=(flt==='all'||(flt==='req'?d.dataset.req==='1':d.dataset.sec===flt))&&(!q||(num(n)+' '+n.n+' '+n.title+' '+n.v.map(v=>v.l).join(' ')).toLowerCase().includes(q));d.hidden=!ok});const all=$$('#items details'),sh=all.filter(d=>!d.hidden).length;$('#cnt').textContent='Показано: '+sh+' из '+all.length}
 $('#q').oninput=filt;
 $$('.chip').forEach(c=>c.onclick=()=>{flt=c.dataset.f;$$('.chip').forEach(x=>x.setAttribute('aria-pressed',x===c));filt()});
+filt();
 $('#items').addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(!b)return;ns.value=b.dataset.go;pickNorm();tab('calc');scrollTo(0,0)});
 // coefficients
 const tb=(t,h,r)=>`<div class="card"><h3>${t}</h3><table><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr>${r.map(x=>`<tr><td>${x[0]}</td><td class="n">${String(x[1]).replace('.',',')}</td></tr>`).join('')}</table></div>`;
 $('#ct').innerHTML=tb('Кв — возраст',['Возрастная группа','Кв'],KV)+tb('Кс — зимние условия',['Условия','Кс'],KS.slice(1))+tb('Кт — температура',['Температура','Кт'],KT)+tb('Ку — факторы выполнения',['Фактор','Ку'],[['Ночное время',1.6],['Ночь при лунном или уличном освещении',1.1],['Летом, днём, на грунтовом участке',1.1],['С защитой органов дыхания в незадымлённой атмосфере*',1.5],['Личный состав первого года службы (индивидуальные нормативы)',1.1],['Нормативы с лестницами в зимних условиях',1.3]])+'<div class="card"><h3>Другие поправки</h3><p class="mu">Л-1 и ОЗК: +25 % к исходному времени.<br>Патрубок спереди или сбоку: +2 с на рукав, с водой +5 с, с пеной +7 с.<br>* Кроме нормативов, которые выполняются в средствах защиты.</p></div>';
 // tabs, theme
-function tab(t){$$('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===t));$$('main,section').forEach(s=>s.hidden=s.id!==t);window.scrollTo(0,0)}
+function tab(t){$$('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===t));$$('main,section').forEach(s=>s.hidden=s.id!==t);document.body.dataset.tab=t;window.scrollTo(0,0)}
 $$('#tabs button').forEach(b=>b.onclick=()=>tab(b.dataset.t));
 function theme(m){document.documentElement.dataset.theme=m;$('#theme').textContent=m==='dark'?'☀️':'🌙';$('meta[name=theme-color]').content=m==='dark'?'#0d1420':'#f3f4f7';try{localStorage.setItem('th',m)}catch(e){}}
 let m0='dark';try{m0=localStorage.getItem('th')||'dark'}catch(e){}
